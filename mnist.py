@@ -51,7 +51,7 @@ def neural_network(data):
 #predicition
 prediction = neural_network(x)
 #calculate cost
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=prediction,labels=y))#we pass prediction and label to compare
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction,labels=y))#we pass prediction and label to compare
 #minimize cost
 optimizer = tf.train.AdamOptimizer().minimize(cost)
 
