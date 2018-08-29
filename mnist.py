@@ -54,9 +54,10 @@ prediction = neural_network(x)
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction,labels=y))#we pass prediction and label to compare
 #minimize cost
 optimizer = tf.train.AdamOptimizer().minimize(cost)
-
+saver = tf.train.Saver()
 init = tf.global_variables_initializer()
 with tf.Session() as sess:
+
     sess.run(init)
 
 
@@ -66,8 +67,9 @@ with tf.Session() as sess:
             _x,_y = mnist.train.next_batch(batch_size)
             _,c = sess.run([optimizer,cost], feed_dict = {x:_x,y:_y})
             loss += c
+            print('loss-------',loss)
         print('Epoch ',epoch, 'out of ',epochs, 'loss ',loss)
-
+        saver.save(sess, '.\my_test_model',global_step=1000)
     correct = tf.equal(tf.argmax(prediction,1),tf.argmax(y,1))
     accuracy = tf.reduce_mean(tf.cast(correct,tf.float32))
     print('Accuracy: ',accuracy.eval({x:mnist.test.images,y:mnist.test.labels}))
